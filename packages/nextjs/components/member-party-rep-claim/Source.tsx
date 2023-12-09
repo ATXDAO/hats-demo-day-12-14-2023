@@ -1,18 +1,13 @@
 import Image from "next/image";
+import { useClaimReputation, useGetRemainingTime } from "../../hooks/atx-dao/CadentReputationDistributorHooks";
 import memberParty from "./assets/member-party.png";
-import { useClaimReputation, useGetRemainingTime } from "./hooks/CadentReputationDistributorHooks";
-import { useERC1155Information } from "./tokens/TokenInteractions";
 import { useAccount } from "wagmi";
 
-export const ContractData = () => {
+export const Source = () => {
   const { address } = useAccount();
 
   const remainingTime = useGetRemainingTime(address);
   const claimReputation = useClaimReputation();
-
-  const { token0, token1 } = useERC1155Information(address);
-  token0.image = token0.image?.replace("ipfs://", "https://ipfs.io/ipfs/");
-  token1.image = token1.image?.replace("ipfs://", "https://ipfs.io/ipfs/");
 
   let remainingTimeOutput;
   if (remainingTime !== undefined) {
