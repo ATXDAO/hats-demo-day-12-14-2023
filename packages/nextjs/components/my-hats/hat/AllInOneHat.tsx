@@ -28,14 +28,14 @@ export const AllInOneHat: React.FC<IAllInOneHat> = props => {
   let output;
   let tooltipOutput;
 
-  let grayscale = "z-0 grayscale-[70%]";
+  let grayscale = "grayscale-[70%]";
 
   if (props.isWearing) {
-    grayscale = "z-0";
+    grayscale = "";
     output = <p className="text-white">Is Wearing</p>;
     tooltipOutput = (
-      <Tooltip id={props.uniqueId}>
-        <div className="z-index 10000 w-96 space-y-0.5">
+      <Tooltip id={props.uniqueId} className="z-10">
+        <div className="z-10 w-96 space-y-0.5">
           <p style={{ color: props.textColor }} className="font-bold text-xl">
             {hatJson?.data?.name}
           </p>
@@ -55,8 +55,8 @@ export const AllInOneHat: React.FC<IAllInOneHat> = props => {
     );
   } else {
     tooltipOutput = (
-      <Tooltip id={props.uniqueId}>
-        <div className="w-96 space-y-0.5">
+      <Tooltip id={props.uniqueId} className="z-10">
+        <div className="z-10 w-96 space-y-0.5">
           <p style={{ color: props.textColor }} className="font-bold text-xl">
             {hatJson?.data?.name}
           </p>
@@ -75,7 +75,7 @@ export const AllInOneHat: React.FC<IAllInOneHat> = props => {
     );
 
     if (props.isClaimable) {
-      grayscale = "z-0";
+      grayscale = "";
 
       output = (
         <button
@@ -92,8 +92,8 @@ export const AllInOneHat: React.FC<IAllInOneHat> = props => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center bg-primary bg-[length:100%_100%] py-1 px-5 sm:px-0 lg:py-auto max-w-[100vw] ">
-      <div className="flex flex-col justify-center items-center">
+    <div className="z-1 flex flex-col justify-center items-center bg-primary bg-[length:100%_100%] py-1 px-5 sm:px-0 lg:py-auto max-w-[100vw] ">
+      <div className="z-1 flex flex-col justify-center items-center">
         <a data-tooltip-id={props.uniqueId}>
           <Image
             className={grayscale}
