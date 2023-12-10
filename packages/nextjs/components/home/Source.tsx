@@ -1,11 +1,11 @@
-import { useERC1155Information } from "../../rep-tokens-ui-config/tokens/TokenInteractions";
-import { ImageProperties } from "../../rep-tokens-ui-config/tokens/token-card/ImageCard";
-import { DefaultTokenGroupCard } from "../../rep-tokens-ui-config/tokens/token-group-card/DefaultTokenGroupCard";
+import { useERC1155Information } from "../reputation-tokens/TokenInteractions";
+import { ImageProperties } from "../reputation-tokens/token-card/ImageCard";
+import { DefaultTokenGroupCard } from "../reputation-tokens/token-group-card/DefaultTokenGroupCard";
 import {
   mainCardPropertiesClasses,
   mainCardRenderProps,
   prettifyLoadingProps,
-} from "../../rep-tokens-ui-config/tokens/token-group-card/TokenGroupCardConfig";
+} from "../reputation-tokens/token-group-card/TokenGroupCardConfig";
 import { useAccount } from "wagmi";
 
 export const Source = () => {

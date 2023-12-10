@@ -1,7 +1,7 @@
 import { useFetch } from "usehooks-ts";
 import { HatNft } from "~~/components/my-hats/HatsTypes";
+import { Nft } from "~~/components/reputation-tokens/TokenInteractions";
 import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
-import { Nft } from "~~/rep-tokens-ui-config/tokens/TokenInteractions";
 
 export function useUri(tokenId?: number) {
   return useScaffoldContractRead({
