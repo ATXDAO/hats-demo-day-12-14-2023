@@ -33,11 +33,10 @@ export const Source = () => {
     <>
       <div className="flex flex-col justify-center items-center bg-primary bg-[length:100%_100%] py-1 px-5 sm:px-0 lg:py-auto max-w-[100vw] ">
         <Image src={memberParty} alt="Image" width="800" height="800" />
-        <p className="text-2xl text-white">
-          Thank you for attending ATX DAOs Gala event. You can claim some Reputation Tokens as a thank you for your
-          attendance!
-        </p>
+        <p className="text-2xl text-white">Thank you for attending ATX DAOs Membership Party.</p>
+
         <p className="text-2xl text-white">You can claim some Reputation Tokens as a thank you for your attendance!</p>
+
         {remainingTimeOutput}
       </div>
     </>

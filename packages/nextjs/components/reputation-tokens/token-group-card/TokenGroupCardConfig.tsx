@@ -57,19 +57,19 @@ export const mainCardWithNumberOverlayPropertiesClasses = {
 } as TTokenCardGroupPropertiesClasses;
 
 export const mainCardPropertiesClasses = {
-  card: "bg-base-300",
+  card: "repContainer",
   container: "flex justify-center",
   tokenCardPropertyClasses: {
     card: "px-5 py-5 w-64",
     baseTokenCardPropertyClasses: {
       balance: {
-        value: "text-4xl mx-auto text-center",
+        value: "text-4xl mx-auto text-center repText",
       },
       name: {
-        value: "text-1xl text-center object-center mx-auto font-bold break-all",
+        value: "text-1xl text-center object-center mx-auto font-bold break-all repText",
       },
       description: {
-        value: "text-1xl mx-auto text-center break-words",
+        value: "text-1xl mx-auto text-center break-words repText",
       },
       image: {
         value: "rounded mx-auto",

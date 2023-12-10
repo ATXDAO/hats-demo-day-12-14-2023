@@ -63,6 +63,7 @@ module.exports = {
         exampleUi: {
           primary: "#000000",
           "primary-content": "#ffffff",
+
           secondary: "#FF6644",
           "secondary-content": "#212638",
           accent: "#93BBFB",
@@ -83,6 +84,15 @@ module.exports = {
           ".tooltip": {
             "--tooltip-tail": "6px",
           },
+
+          ".repContainer": {
+            "background-color": "#252525",
+          },
+
+          ".repText": {
+            "color": "#ebebeb"
+          }
+
         },
       },
     ],
