@@ -12,7 +12,8 @@ export interface IAllInOneHat {
   tooltipExtras: JSX.Element;
   isWearing: boolean;
   isClaimable: boolean;
-  onClaimed: () => void;
+  textColor: string;
+  onClaimed?: () => Promise<void>;
 }
 
 export const AllInOneHat: React.FC<IAllInOneHat> = props => {
@@ -35,7 +36,9 @@ export const AllInOneHat: React.FC<IAllInOneHat> = props => {
     tooltipOutput = (
       <Tooltip id={props.uniqueId}>
         <div className="z-index 10000 w-96 space-y-0.5">
-          <p className="text-green-400 font-bold text-xl">{hatJson?.data?.name}</p>
+          <p style={{ color: props.textColor }} className="font-bold text-xl">
+            {hatJson?.data?.name}
+          </p>
           <p>Soulbound</p>
           <p>Unique</p>
           <div className="flex">
@@ -52,7 +55,9 @@ export const AllInOneHat: React.FC<IAllInOneHat> = props => {
     tooltipOutput = (
       <Tooltip id={props.uniqueId}>
         <div className="w-96 space-y-0.5">
-          <p className="text-green-400 font-bold text-xl">{hatJson?.data?.name}</p>
+          <p style={{ color: props.textColor }} className="font-bold text-xl">
+            {hatJson?.data?.name}
+          </p>
           <p>Binds when claimed</p>
           <p>Unique</p>
           <div className="flex">
@@ -73,7 +78,7 @@ export const AllInOneHat: React.FC<IAllInOneHat> = props => {
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1"
           onClick={async () => {
             await claimHat();
-            props.onClaimed();
+            if (props.onClaimed) await props.onClaimed();
           }}
         >
           Claim!
@@ -92,9 +97,10 @@ export const AllInOneHat: React.FC<IAllInOneHat> = props => {
             alt={hatJson?.data?.name || "Hat"}
             width="200"
             height="200"
+            priority
           />
         </a>
-        <a data-tooltip-id={props.uniqueId} className="text-green-500 font-bold text-xl">
+        <a style={{ color: props.textColor }} data-tooltip-id={props.uniqueId} className="font-bold text-xl">
           {"[" + hatJson?.data?.name + "]"}
         </a>
         {output}

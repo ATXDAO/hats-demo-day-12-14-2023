@@ -11,7 +11,8 @@ export interface IClaimableHat {
   uniqueId: string;
   tooltipExtras: JSX.Element;
   isClaimable: boolean;
-  onClaimed: () => void;
+  textColor: string;
+  onClaimed?: () => Promise<void>;
 }
 
 export const ClaimableHat: React.FC<IClaimableHat> = props => {
@@ -35,13 +36,16 @@ export const ClaimableHat: React.FC<IClaimableHat> = props => {
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1"
         onClick={async () => {
           await claimHat();
-          props.onClaimed();
+
+          if (props.onClaimed) await props.onClaimed();
         }}
       >
         Claim!
       </button>
     );
   }
+
+  const nameClass = "font-bold text-xl";
 
   return (
     <div className="flex flex-col justify-center items-center bg-primary bg-[length:100%_100%] py-1 px-5 sm:px-0 lg:py-auto max-w-[100vw] ">
@@ -53,9 +57,10 @@ export const ClaimableHat: React.FC<IClaimableHat> = props => {
             alt={hatJson?.data?.name || "Hat"}
             width="200"
             height="200"
+            priority
           />
         </a>
-        <a data-tooltip-id={props.uniqueId} className="text-green-500 font-bold text-xl">
+        <a style={{ color: props.textColor }} data-tooltip-id={props.uniqueId} className={nameClass}>
           {"[" + hatJson?.data?.name + "]"}
         </a>
         {isClaimableOutput}
@@ -63,7 +68,9 @@ export const ClaimableHat: React.FC<IClaimableHat> = props => {
 
       <Tooltip id={props.uniqueId}>
         <div className="w-96 space-y-0.5">
-          <p className="text-green-400 font-bold text-xl">{hatJson?.data?.name}</p>
+          <p style={{ color: props.textColor }} className={nameClass}>
+            {hatJson?.data?.name}
+          </p>
           <p>Binds when claimed</p>
           <p>Unique</p>
           <div className="flex">
