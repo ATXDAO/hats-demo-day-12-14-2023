@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { useClaimHat, useHatsClient } from "../../../hooks/atx-dao/hatsHooks";
+import { HatViewData } from "../HatsTypes";
 import { Tooltip } from "react-tooltip";
 import { useAccount } from "wagmi";
 import { useHatsIPFSData } from "~~/hooks/ERC1155Hooks";
-import { HatViewData } from "~~/rep-tokens-ui-config/tokens/TokenInteractions";
 
 export interface IClaimableHat {
   hatViewData: HatViewData;

@@ -1,7 +1,7 @@
 import Image from "next/image";
+import { HatViewData } from "../HatsTypes";
 import { Tooltip } from "react-tooltip";
 import { useHatsIPFSData } from "~~/hooks/ERC1155Hooks";
-import { HatViewData } from "~~/rep-tokens-ui-config/tokens/TokenInteractions";
 
 export interface IEquippedHat {
   hatViewData: HatViewData;
@@ -14,8 +14,6 @@ export interface IEquippedHat {
 export const EquippedHat: React.FC<IEquippedHat> = props => {
   props.hatViewData.imageUri = props.hatViewData.imageUri.replace("ipfs://", "https://ipfs.io/ipfs/");
   const hatJson = useHatsIPFSData(props.hatViewData.details);
-
-  console.log(hatJson);
 
   return (
     <>

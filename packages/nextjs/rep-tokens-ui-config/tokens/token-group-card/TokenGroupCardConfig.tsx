@@ -63,7 +63,7 @@ export const mainCardPropertiesClasses = {
     card: "px-5 py-5 w-64",
     baseTokenCardPropertyClasses: {
       balance: {
-        value: "text-4xl mx-auto text-center",
+        value: "text-1xl mx-auto text-center",
       },
       name: {
         value: "text-1xl text-center object-center mx-auto font-bold break-all",
