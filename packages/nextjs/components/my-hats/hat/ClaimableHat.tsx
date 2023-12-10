@@ -26,7 +26,7 @@ export const ClaimableHat: React.FC<IClaimableHat> = props => {
 
   let isClaimableOutput;
 
-  let grayscale = "z-0 grayscale-[90%]";
+  let grayscale = "z-0 grayscale-[70%]";
 
   if (props.isClaimable) {
     grayscale = "z-0";
@@ -77,8 +77,10 @@ export const ClaimableHat: React.FC<IClaimableHat> = props => {
             <p className="flex-auto">Head</p>
             <p className="flex-auto">Cloth</p>
           </div>
-          <p className="">{hatJson?.data?.description}</p>
           {props.tooltipExtras}
+          <p style={{ color: "#cf8816" }} className="">
+            {hatJson?.data?.description}
+          </p>
         </div>
       </Tooltip>
     </div>

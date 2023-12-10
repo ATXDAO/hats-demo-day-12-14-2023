@@ -67,7 +67,7 @@ export function useClaimableHats(hatsClient: HatsClient | undefined, address: st
     if (!address) return;
 
     setClaimableHats();
-  }, [hatsClient, address, setClaimableHats]);
+  }, [hatsClient, address]);
 
   return { claimableHats, setClaimableHats };
 }

@@ -15,6 +15,8 @@ export const EquippedHat: React.FC<IEquippedHat> = props => {
   props.hatViewData.imageUri = props.hatViewData.imageUri.replace("ipfs://", "https://ipfs.io/ipfs/");
   const hatJson = useHatsIPFSData(props.hatViewData.details);
 
+  console.log(hatJson);
+
   return (
     <>
       <div className="flex flex-col justify-center items-center bg-primary bg-[length:100%_100%] py-1 px-5 sm:px-0 lg:py-auto max-w-[100vw] ">
@@ -45,9 +47,11 @@ export const EquippedHat: React.FC<IEquippedHat> = props => {
               <p className="flex-auto">Head</p>
               <p className="flex-auto">Cloth</p>
             </div>
-            <p className="">{hatJson?.data?.description}</p>
             <p>Durability 1337/1337</p>
             {props.tooltipExtras}
+            <p style={{ color: "#cf8816" }} className="">
+              {hatJson?.data?.description}
+            </p>
           </div>
         </Tooltip>
       </div>

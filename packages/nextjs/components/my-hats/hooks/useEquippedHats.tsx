@@ -46,13 +46,13 @@ export async function getEquippedHats(hatsClient: HatsClient, address: string, h
 }
 
 export function useEquippedHats(hatsClient: HatsClient | undefined, address: string | undefined, hatIds: string[]) {
-  const [equippedHats, set] = useState<IEquippedHat[]>([]);
+  const [equippedHats, setMe] = useState<IEquippedHat[]>([]);
   async function setEquippedHats() {
     if (!hatsClient) return;
     if (!address) return;
 
     const result = await getEquippedHats(hatsClient, address, hatIds);
-    set([...result!]);
+    setMe([...result!]);
   }
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export function useEquippedHats(hatsClient: HatsClient | undefined, address: str
     if (!address) return;
 
     setEquippedHats();
-  }, [hatsClient, address, hatIds, setEquippedHats]);
+  }, [hatsClient, address]);
 
   return { equippedHats, setEquippedHats };
 }

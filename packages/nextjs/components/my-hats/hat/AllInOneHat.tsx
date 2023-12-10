@@ -28,7 +28,7 @@ export const AllInOneHat: React.FC<IAllInOneHat> = props => {
   let output;
   let tooltipOutput;
 
-  let grayscale = "z-0 grayscale-[90%]";
+  let grayscale = "z-0 grayscale-[70%]";
 
   if (props.isWearing) {
     grayscale = "z-0";
@@ -45,9 +45,11 @@ export const AllInOneHat: React.FC<IAllInOneHat> = props => {
             <p className="flex-auto">Head</p>
             <p className="flex-auto">Cloth</p>
           </div>
-          <p className="">{hatJson?.data?.description}</p>
           <p>Durability 1337/1337</p>
           {props.tooltipExtras}
+          <p style={{ color: "#cf8816" }} className="">
+            {hatJson?.data?.description}
+          </p>
         </div>
       </Tooltip>
     );
@@ -64,7 +66,9 @@ export const AllInOneHat: React.FC<IAllInOneHat> = props => {
             <p className="flex-auto">Head</p>
             <p className="flex-auto">Cloth</p>
           </div>
-          <p className="">{hatJson?.data?.description}</p>
+          <p style={{ color: "#cf8816" }} className="">
+            {hatJson?.data?.description}
+          </p>
           {props.tooltipExtras}
         </div>
       </Tooltip>

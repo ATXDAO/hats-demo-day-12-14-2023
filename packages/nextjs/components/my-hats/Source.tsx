@@ -42,7 +42,7 @@ export const Source = () => {
     <EquippedHat
       uniqueId={hat.uniqueId}
       hatId={hat.hatId}
-      key={hat.hatId}
+      key={hat.uniqueId}
       hatViewData={hat.hatViewData}
       tooltipExtras={hat.tooltipExtras}
       textColor={hat.textColor}
@@ -53,7 +53,7 @@ export const Source = () => {
     <ClaimableHat
       uniqueId={hat.uniqueId}
       hatId={hat.hatId}
-      key={hat.hatId}
+      key={hat.uniqueId}
       hatViewData={hat.hatViewData}
       tooltipExtras={hat.tooltipExtras}
       onClaimed={hat.onClaimed}
@@ -66,7 +66,7 @@ export const Source = () => {
     <AllInOneHat
       uniqueId={hat.uniqueId}
       hatId={hat.hatId}
-      key={hat.hatId}
+      key={hat.uniqueId}
       hatViewData={hat.hatViewData}
       tooltipExtras={hat.tooltipExtras}
       isWearing={hat.isWearing}
@@ -87,6 +87,7 @@ export const Source = () => {
         ) : (
           <div></div>
         )}
+
         <p className="text-2xl text-white py-5">Full Collection</p>
         <div className="flex">{claimableHatsComponents}</div>
 

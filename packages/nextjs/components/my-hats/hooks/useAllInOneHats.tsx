@@ -68,7 +68,7 @@ export function useAllInOneHats(hatsClient: HatsClient | undefined, address: str
     if (!address) return;
 
     setAllInOneHats();
-  }, [hatsClient, address, setAllInOneHats]);
+  }, [hatsClient, address]);
 
   return { allInOneHats, setAllInOneHats };
 }
