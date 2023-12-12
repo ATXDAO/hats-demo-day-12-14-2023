@@ -9,44 +9,44 @@ export async function getEquippedHats(hatsClient: HatsClient, address: string, h
 
   for (let i = 0; i < hatIds.length; i++) {
     const result = await hatsClient?.isWearerOfHat({ wearer: address, hatId: BigInt(hatIds[i]) });
-    if (result) {
-      const hatViewData = await hatsClient?.viewHat(BigInt(hatIds[i]));
+    if (!result) continue;
 
-      let textColor = "";
+    const hatViewData = await hatsClient?.viewHat(BigInt(hatIds[i]));
 
-      let tooltipExtras: JSX.Element = <div></div>;
-      if (hatIds[i] === globalHatIds[0]) {
-        textColor = "#1eff00";
+    let textColor = "";
 
-        tooltipExtras = (
-          <div>
-            <p>Requires 100 Reputation Tokens</p>
-            <p className=" text-green-400 font-bold">
-              {"Equip: Grants access to view and edit specific ATX DAO CharmVerse documents."}
-            </p>
-          </div>
-        );
-      } else if (hatIds[i] === globalHatIds[1]) {
-        textColor = "#0070dd";
-      } else if (hatIds[i] === globalHatIds[2]) {
-        textColor = "#a335ee";
+    let tooltipExtras: JSX.Element = <div></div>;
+    if (hatIds[i] === globalHatIds[0]) {
+      textColor = "#1eff00";
 
-        tooltipExtras = (
-          <div>
-            <p className=" text-green-400 font-bold">{"Equip: Gain the sudden weight of owning a DAO."}</p>
-          </div>
-        );
-      }
+      tooltipExtras = (
+        <div>
+          <p>Requires 100 Reputation Tokens</p>
+          <p className=" text-green-400 font-bold">
+            {"Equip: Grants access to view and edit specific ATX DAO CharmVerse documents."}
+          </p>
+        </div>
+      );
+    } else if (hatIds[i] === globalHatIds[1]) {
+      textColor = "#0070dd";
+    } else if (hatIds[i] === globalHatIds[2]) {
+      textColor = "#a335ee";
 
-      const hatObj: IEquippedHat = {
-        hatViewData: hatViewData as HatViewData,
-        hatId: hatIds[i],
-        uniqueId: hatIds[i] + "-Equipped",
-        tooltipExtras,
-        textColor,
-      };
-      hatObjs.push(hatObj);
+      tooltipExtras = (
+        <div>
+          <p className=" text-green-400 font-bold">{"Equip: Gain the sudden weight of owning a DAO."}</p>
+        </div>
+      );
     }
+
+    const hatObj: IEquippedHat = {
+      hatViewData: hatViewData as HatViewData,
+      hatId: hatIds[i],
+      uniqueId: hatIds[i] + "-Equipped",
+      tooltipExtras,
+      textColor,
+    };
+    hatObjs.push(hatObj);
   }
   return hatObjs;
 }
@@ -62,8 +62,6 @@ export function useEquippedHats(hatsClient: HatsClient | undefined, address: str
     setIsLoading(true);
     const result = await getEquippedHats(hatsClient, address, hatIds);
     setMe([...result!]);
-
-    console.log("Set!");
     setIsLoading(false);
   }
 

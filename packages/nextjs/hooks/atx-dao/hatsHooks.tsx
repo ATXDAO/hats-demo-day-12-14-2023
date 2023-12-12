@@ -1,26 +1,20 @@
 import { useEffect, useState } from "react";
 import { HatsClient } from "@hatsprotocol/sdk-v1-core";
 import type {
-  /*MintHatResult, RenounceHatResult, ChangeHatDetailsResult, ChangeHatEligibilityResult, ChangeHatToggleResult, ChangeHatImageURIResult, ChangeHatMaxSupplyResult, MakeHatImmutableResult, BatchMintHatsResult, SetHatStatusResult, TransferHatResult, SetHatWearerStatusResult, CheckHatStatusResult, CheckHatWearerStatusResult, RequestLinkTopHatToTreeResult, */
+  /*MintHatResult, RenounceHatResult, ChangeHatDetailsResult, ChangeHatEligibilityResult, ChangeHatToggleResult, ChangeHatImageURIResult, ChangeHatMaxSupplyResult, MakeHatImmutableResult, , SetHatStatusResult, TransferHatResult, SetHatWearerStatusResult, CheckHatStatusResult, CheckHatWearerStatusResult, RequestLinkTopHatToTreeResult, */
   ApproveLinkTopHatToTreeResult,
-  /*UnlinkTopHatFromTreeResult, RelinkTopHatWithinTreeResult, MultiCallResult, ClaimResult*/
-
   /*CreateHatResult, MintTopHatResult, */
   BatchCreateHatsResult,
+  BatchMintHatsResult,
+  /*UnlinkTopHatFromTreeResult, RelinkTopHatWithinTreeResult, MultiCallResult, */
+  ClaimResult,
 } from "@hatsprotocol/sdk-v1-core/dist/types";
-import {
-  PublicClient,
-  WalletClient,
-  /*usePublicClient, useWalletClient*/
-} from "wagmi";
+import { PublicClient, WalletClient } from "wagmi";
 
 //Initialization Functions
 
 export function useHatsClient(chainId: number, publicClient: PublicClient, walletClient: WalletClient) {
   const [hatsClient, setHatsClient] = useState<HatsClient>();
-
-  // const { data: walletClient } = useWalletClient();
-  // const publicClient = usePublicClient();
 
   async function getHatsClient(walletClient: WalletClient, publicClient: PublicClient, chainId: number) {
     const hatsClient = new HatsClient({
@@ -44,48 +38,69 @@ export function useHatsClient(chainId: number, publicClient: PublicClient, walle
 //Read Functions
 
 export function useAccountCanClaim(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
-  const [accountCanClaim, setAccountCanClaim] = useState(false);
+  const [data, setData] = useState(false);
 
-  async function getAccountCanClaim(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
+  async function getData(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
     if (!hatsClient) return;
-
     if (!account) return;
 
-    const canClaim = await hatsClient.accountCanClaim({
+    const result = await hatsClient.accountCanClaim({
       hatId: BigInt(hatId),
       account,
     });
 
-    setAccountCanClaim(canClaim);
+    setData(result);
   }
 
   useEffect(() => {
-    getAccountCanClaim(hatsClient, hatId, account);
+    getData(hatsClient, hatId, account);
   }, [hatsClient, account, hatId]);
 
-  return { accountCanClaim, getAccountCanClaim };
+  return { data, getData };
+}
+
+export function useCanClaimForAccount(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
+  const [data, setData] = useState(false);
+
+  async function getData(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
+    if (!hatsClient) return;
+    if (!account) return;
+
+    const result = await hatsClient.canClaimForAccount({
+      hatId: BigInt(hatId),
+      account,
+    });
+
+    setData(result);
+  }
+
+  useEffect(() => {
+    getData(hatsClient, hatId, account);
+  }, [hatsClient, account, hatId]);
+
+  return { data, getData };
 }
 
 export function useIsWearerOfHat(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
-  const [isWearerOfHat, setIsWearing] = useState(false);
+  const [data, setData] = useState(false);
 
-  async function getIsWearerOfHat(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
+  async function getData(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
     if (!hatsClient) return;
     if (!account) return;
 
     const result = await hatsClient.isWearerOfHat({ wearer: account, hatId: BigInt(hatId) });
-    setIsWearing(result);
+    setData(result);
   }
 
   useEffect(() => {
-    getIsWearerOfHat(hatsClient, hatId, account);
+    getData(hatsClient, hatId, account);
   }, [hatsClient, account, hatId]);
 
-  return { isWearerOfHat, getIsWearerOfHat };
+  return { data, getData };
 }
 
 export function useViewHat(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
-  const [properties, setProperties] = useState({
+  const [data, setData] = useState({
     details: "",
     maxSupply: 0,
     supply: 0,
@@ -97,20 +112,19 @@ export function useViewHat(hatsClient: HatsClient | undefined, hatId: string, ac
     active: false,
   });
 
-  async function getViewHat(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
+  async function getData(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
     if (!hatsClient) return;
     if (!account) return;
 
-    const properties = await hatsClient.viewHat(BigInt(hatId));
-
-    setProperties(properties);
+    const result = await hatsClient.viewHat(BigInt(hatId));
+    setData(result);
   }
 
   useEffect(() => {
-    getViewHat(hatsClient, hatId, account);
+    getData(hatsClient, hatId, account);
   }, [hatsClient, account, hatId]);
 
-  return { properties, getViewHat };
+  return { data, getData };
 }
 
 //Write Functions
@@ -127,11 +141,11 @@ export function useApproveLinkTopHatToTree(
 ) {
   const [data, setData] = useState<ApproveLinkTopHatToTreeResult>();
 
-  async function approveLinkTophatToTree() {
+  async function writeAsync() {
     if (!hatsClient) return;
     if (!account) return;
 
-    const data = await hatsClient.approveLinkTopHatToTree({
+    const result = await hatsClient.approveLinkTopHatToTree({
       account,
       topHatDomain,
       newAdminHat,
@@ -140,10 +154,10 @@ export function useApproveLinkTopHatToTree(
       newDetails,
       newImageURI,
     });
-    setData(data);
+    setData(result);
   }
 
-  return { data, approveLinkTophatToTree };
+  return { data, writeAsync };
 }
 
 export function useBatchClaimHats(
@@ -157,13 +171,13 @@ export function useBatchClaimHats(
   mutables: boolean[],
   imageURIs?: string[] | undefined,
 ) {
-  const [batchCreateHatsResult, setBatchCreateHatsResult] = useState<BatchCreateHatsResult>();
+  const [data, setData] = useState<BatchCreateHatsResult>();
 
-  async function batchCreateHats() {
+  async function writeAsync() {
     if (!hatsClient) return;
     if (!account) return;
 
-    const batchCreateHatsResult = await hatsClient.batchCreateHats({
+    const result = await hatsClient.batchCreateHats({
       account,
       admins,
       details,
@@ -173,24 +187,43 @@ export function useBatchClaimHats(
       mutables,
       imageURIs,
     });
-    setBatchCreateHatsResult(batchCreateHatsResult);
+    setData(result);
   }
 
-  return { data: batchCreateHatsResult, batchCreateHats };
+  return { data, writeAsync };
 }
 
-export function useClaimHat(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
-  async function claimHat() {
+export function useBatchMintHats(
+  hatsClient: HatsClient | undefined,
+  account: string | undefined,
+  hatIds: bigint[],
+  wearers: string[],
+) {
+  const [data, setData] = useState<BatchMintHatsResult>();
+
+  async function writeAsync() {
     if (!hatsClient) return;
     if (!account) return;
 
-    await hatsClient.claimHat({
-      account,
-      hatId: BigInt(hatId),
-    });
+    const result = await hatsClient.batchMintHats({ account, hatIds, wearers });
+    setData(result);
   }
 
-  return { claimHat };
+  return { data, writeAsync };
+}
+
+export function useClaimHat(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
+  const [data, setData] = useState<ClaimResult>();
+
+  async function writeAsync() {
+    if (!hatsClient) return;
+    if (!account) return;
+
+    const result = await hatsClient.claimHat({ account, hatId: BigInt(hatId) });
+    setData(result);
+  }
+
+  return { data, writeAsync };
 }
 
 // TODO://
