@@ -19,7 +19,6 @@ export const Source = () => {
 
   const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
-
   const { hatsClient } = useHatsClient(5, publicClient, walletClient!);
 
   const {
