@@ -22,9 +22,17 @@ export const Source = () => {
 
   const { hatsClient } = useHatsClient(5, publicClient, walletClient!);
 
-  const { claimableHats, setClaimableHats } = useClaimableHats(hatsClient, account, globalHatIds);
+  const {
+    claimableHats,
+    isLoading: isLoadingClaimables,
+    setClaimableHats,
+  } = useClaimableHats(hatsClient, account, globalHatIds);
   // const { allInOneHats, setAllInOneHats } = useAllInOneHats(hatsClient, address, globalHatIds);
-  const { equippedHats, setEquippedHats } = useEquippedHats(hatsClient, account, globalHatIds);
+  const {
+    equippedHats,
+    isLoading: isLoadingEquippables,
+    setEquippedHats,
+  } = useEquippedHats(hatsClient, account, globalHatIds);
 
   for (let i = 0; i < claimableHats.length; i++) {
     claimableHats[i].onClaimed = async () => {
@@ -91,20 +99,35 @@ export const Source = () => {
   //   ></AllInOneHat>
   // ));
 
-  return (
-    <>
-      <div className="flex flex-col justify-center items-center bg-primary bg-[length:100%_100%] py-1 px-5 sm:px-0 lg:py-auto max-w-[100vw] ">
-        {equippedHatsComponents.length > 0 ? (
-          <>
-            <p className="text-2xl text-white py-5">My Hats</p>
-            <div className="flex">{equippedHatsComponents}</div>
-          </>
-        ) : (
-          <div></div>
-        )}
+  let equippedHatsOutput = <div></div>;
+
+  if (equippedHatsComponents.length > 0) {
+    equippedHatsOutput = (
+      <>
+        <p className="text-2xl text-white py-5">My Hats</p>
+        <div className="flex">{equippedHatsComponents}</div>
 
         <p className="text-2xl text-white py-5">Full Collection</p>
         <div className="flex">{claimableHatsComponents}</div>
+      </>
+    );
+  } else {
+    equippedHatsOutput = (
+      <>
+        <p className="text-2xl text-white py-5">Full Collection</p>
+        <div className="flex">{claimableHatsComponents}</div>
+      </>
+    );
+  }
+  return (
+    <>
+      <div className="flex flex-col justify-center items-center bg-primary bg-[length:100%_100%] py-1 px-5 sm:px-0 lg:py-auto max-w-[100vw] ">
+        {isLoadingClaimables && isLoadingEquippables ? (
+          <p className="text-2xl text-white py-5">Loading Hats...</p>
+        ) : (
+          <>{equippedHatsOutput}</>
+        )}
+
         {/* 
         <p className="text-2xl text-white py-5">All Hats</p>
         <div className="flex">{allInOneComponents}</div> */}

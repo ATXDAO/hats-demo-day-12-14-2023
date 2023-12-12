@@ -60,12 +60,18 @@ export async function getClaimableHats(hatsClient: HatsClient, address: string, 
 
 export function useClaimableHats(hatsClient: HatsClient | undefined, address: string | undefined, hatIds: string[]) {
   const [claimableHats, set] = useState<IClaimableHat[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   async function setClaimableHats() {
     if (!hatsClient) return;
     if (!address) return;
 
+    setIsLoading(true);
     const result = await getClaimableHats(hatsClient, address, hatIds);
     set([...result!]);
+    console.log("Set 2!");
+
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -75,5 +81,5 @@ export function useClaimableHats(hatsClient: HatsClient | undefined, address: st
     setClaimableHats();
   }, [hatsClient, address]);
 
-  return { claimableHats, setClaimableHats };
+  return { claimableHats, isLoading, setClaimableHats };
 }

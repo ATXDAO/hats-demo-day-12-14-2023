@@ -53,12 +53,18 @@ export async function getEquippedHats(hatsClient: HatsClient, address: string, h
 
 export function useEquippedHats(hatsClient: HatsClient | undefined, address: string | undefined, hatIds: string[]) {
   const [equippedHats, setMe] = useState<IEquippedHat[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   async function setEquippedHats() {
     if (!hatsClient) return;
     if (!address) return;
 
+    setIsLoading(true);
     const result = await getEquippedHats(hatsClient, address, hatIds);
     setMe([...result!]);
+
+    console.log("Set!");
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -68,5 +74,5 @@ export function useEquippedHats(hatsClient: HatsClient | undefined, address: str
     setEquippedHats();
   }, [hatsClient, address]);
 
-  return { equippedHats, setEquippedHats };
+  return { equippedHats, isLoading, setEquippedHats };
 }
