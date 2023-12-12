@@ -28,7 +28,7 @@ export function useHatsClient(chainId: number) {
 }
 
 export function useIsWearerOfHat(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
-  const [isWearing, setIsWearing] = useState(false);
+  const [isWearerOfHat, setIsWearing] = useState(false);
 
   async function getIsWearerOfHat(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
     if (!hatsClient) return;
@@ -42,7 +42,7 @@ export function useIsWearerOfHat(hatsClient: HatsClient | undefined, hatId: stri
     getIsWearerOfHat(hatsClient, hatId, account);
   }, [hatsClient, account, hatId]);
 
-  return { isWearing, getIsWearerOfHat };
+  return { isWearerOfHat, getIsWearerOfHat };
 }
 
 export function useViewHat(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
