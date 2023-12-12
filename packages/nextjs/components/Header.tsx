@@ -23,8 +23,8 @@ export const menuLinks: HeaderMenuLink[] = [
     icon: <SparklesIcon className="h-4 w-4" />,
   },
   {
-    label: "Member Party Rep Claim",
-    href: "/member-party-rep-claim",
+    label: "Rep Claim: The Taming of the Dragon",
+    href: "/the-taming-of-the-dragon",
     icon: <SparklesIcon className="h-4 w-4" />,
   },
 ];
