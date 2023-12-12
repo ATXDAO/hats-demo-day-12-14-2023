@@ -6,6 +6,13 @@ import { EquippedHat } from "./hat/EquippedHat";
 import { useClaimableHats } from "./hooks/useClaimableHats";
 import { useEquippedHats } from "./hooks/useEquippedHats";
 import { useAccount } from "wagmi";
+import {
+  /*PublicClient, WalletClient,*/
+  usePublicClient,
+  useWalletClient,
+} from "wagmi";
+
+// import { useClaimHat } from "../../hooks/atx-dao/hatsHooks";
 
 export const globalHatIds = [
   "9921260784893851876474358771529355516659303059594999436885558443376640",
@@ -14,16 +21,24 @@ export const globalHatIds = [
 ];
 
 export const Source = () => {
-  const { address } = useAccount();
+  const { address: account } = useAccount();
 
-  const { hatsClient } = useHatsClient(5);
+  const { data: walletClient } = useWalletClient();
+  const publicClient = usePublicClient();
 
-  const { claimableHats, setClaimableHats } = useClaimableHats(hatsClient, address, globalHatIds);
+  const { hatsClient } = useHatsClient(5, publicClient, walletClient!);
+
+  const { claimableHats, setClaimableHats } = useClaimableHats(hatsClient, account, globalHatIds);
   // const { allInOneHats, setAllInOneHats } = useAllInOneHats(hatsClient, address, globalHatIds);
-  const { equippedHats, setEquippedHats } = useEquippedHats(hatsClient, address, globalHatIds);
+  const { equippedHats, setEquippedHats } = useEquippedHats(hatsClient, account, globalHatIds);
 
   for (let i = 0; i < claimableHats.length; i++) {
     claimableHats[i].onClaimed = async () => {
+      if (!account) {
+        return;
+      }
+
+      await hatsClient?.claimHat({ account, hatId: BigInt(claimableHats[i].hatId) });
       await setEquippedHats();
       await setClaimableHats();
       // await setAllInOneHats();
@@ -32,6 +47,12 @@ export const Source = () => {
 
   // for (let i = 0; i < allInOneHats.length; i++) {
   //   allInOneHats[i].onClaimed = async () => {
+
+  //     if (!account) {
+  //       return;
+  //     }
+
+  //     await hatsClient?.claimHat({ account, hatId: BigInt(claimableHats[i].hatId) });
   //     await setEquippedHats();
   //     await setClaimableHats();
   //     await setAllInOneHats();

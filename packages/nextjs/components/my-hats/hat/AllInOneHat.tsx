@@ -1,8 +1,8 @@
 import Image from "next/image";
-import { useClaimHat, useHatsClient } from "../../../hooks/atx-dao/hatsHooks";
+// import { useClaimHat, useHatsClient } from "../../../hooks/atx-dao/hatsHooks";
 import { HatViewData } from "../HatsTypes";
 import { Tooltip } from "react-tooltip";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 import { useHatsIPFSData } from "~~/hooks/ERC1155Hooks";
 
 export interface IAllInOneHat {
@@ -17,10 +17,10 @@ export interface IAllInOneHat {
 }
 
 export const AllInOneHat: React.FC<IAllInOneHat> = props => {
-  const { address } = useAccount();
+  // const { address } = useAccount();
 
-  const { hatsClient } = useHatsClient(5);
-  const { claimHat } = useClaimHat(hatsClient, props.hatId, address);
+  // const { hatsClient } = useHatsClient(5);
+  // const { claimHat } = useClaimHat(hatsClient, props.hatId, address);
 
   props.hatViewData.imageUri = props.hatViewData.imageUri.replace("ipfs://", "https://ipfs.io/ipfs/");
   const hatJson = useHatsIPFSData(props.hatViewData.details);
@@ -81,7 +81,7 @@ export const AllInOneHat: React.FC<IAllInOneHat> = props => {
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-1"
           onClick={async () => {
-            await claimHat();
+            // await claimHat();
             if (props.onClaimed) await props.onClaimed();
           }}
         >
