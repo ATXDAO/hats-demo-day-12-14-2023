@@ -69,8 +69,6 @@ export function useClaimableHats(hatsClient: HatsClient | undefined, address: st
     setIsLoading(true);
     const result = await getClaimableHats(hatsClient, address, hatIds);
     set([...result!]);
-    console.log("Set 2!");
-
     setIsLoading(false);
   }
 
