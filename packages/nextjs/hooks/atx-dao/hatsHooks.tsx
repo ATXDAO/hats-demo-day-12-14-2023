@@ -27,10 +27,10 @@ export function useHatsClient(chainId: number) {
   return { hatsClient, getHatsClient };
 }
 
-export function useIsWearing(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
+export function useIsWearerOfHat(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
   const [isWearing, setIsWearing] = useState(false);
 
-  async function getIsWearing(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
+  async function getIsWearerOfHat(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
     if (!hatsClient) return;
     if (!account) return;
 
@@ -39,14 +39,14 @@ export function useIsWearing(hatsClient: HatsClient | undefined, hatId: string, 
   }
 
   useEffect(() => {
-    getIsWearing(hatsClient, hatId, account);
+    getIsWearerOfHat(hatsClient, hatId, account);
   }, [hatsClient, account, hatId]);
 
-  return { isWearing, getIsWearing };
+  return { isWearing, getIsWearerOfHat };
 }
 
 export function useViewHat(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
-  const [hatProperties, setHatProperties] = useState({
+  const [properties, setProperties] = useState({
     details: "",
     maxSupply: 0,
     supply: 0,
@@ -58,26 +58,26 @@ export function useViewHat(hatsClient: HatsClient | undefined, hatId: string, ac
     active: false,
   });
 
-  async function getHatProperties(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
+  async function getViewHat(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
     if (!hatsClient) return;
     if (!account) return;
 
-    const hatProperties = await hatsClient.viewHat(BigInt(hatId));
+    const properties = await hatsClient.viewHat(BigInt(hatId));
 
-    setHatProperties(hatProperties);
+    setProperties(properties);
   }
 
   useEffect(() => {
-    getHatProperties(hatsClient, hatId, account);
+    getViewHat(hatsClient, hatId, account);
   }, [hatsClient, account, hatId]);
 
-  return hatProperties;
+  return { properties, getViewHat };
 }
 
-export function useHatsCanClaim(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
-  const [canClaim, setCanClaim] = useState(false);
+export function useAccountCanClaim(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
+  const [accountCanClaim, setAccountCanClaim] = useState(false);
 
-  async function getCanClaim(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
+  async function getAccountCanClaim(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
     if (!hatsClient) return;
 
     if (!account) return;
@@ -87,14 +87,14 @@ export function useHatsCanClaim(hatsClient: HatsClient | undefined, hatId: strin
       account,
     });
 
-    setCanClaim(canClaim);
+    setAccountCanClaim(canClaim);
   }
 
   useEffect(() => {
-    getCanClaim(hatsClient, hatId, account);
+    getAccountCanClaim(hatsClient, hatId, account);
   }, [hatsClient, account, hatId]);
 
-  return { canClaim, getCanClaim };
+  return { accountCanClaim, getAccountCanClaim };
 }
 
 export function useClaimHat(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
@@ -110,6 +110,14 @@ export function useClaimHat(hatsClient: HatsClient | undefined, hatId: string, a
 
   return { claimHat };
 }
+
+// TODO://
+
+// export function useHatsClientRead(hatsClient: HatsClient, functionName: string, args: object[]) {
+//     async function clientRead(hatsClient: HatsClient, functionName: string, args: object[]) {
+//         await hatsClient[functionName](args);
+//     }
+// }
 
 // export function useHatsClientWrite(hatsClient: HatsClient, functionName: string, args: object[]) {
 //     async function clientWrite(hatsClient: HatsClient, functionName: string, args: object[]) {
