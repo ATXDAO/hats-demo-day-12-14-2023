@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
 import { HatsClient } from "@hatsprotocol/sdk-v1-core";
 import type {
-  /*MintHatResult, RenounceHatResult, ChangeHatDetailsResult, ChangeHatEligibilityResult, ChangeHatToggleResult, ChangeHatImageURIResult, ChangeHatMaxSupplyResult, MakeHatImmutableResult, , SetHatStatusResult, TransferHatResult, SetHatWearerStatusResult, CheckHatStatusResult, CheckHatWearerStatusResult, RequestLinkTopHatToTreeResult, */
+  /*MintHatResult, RenounceHatResult, ,  MakeHatImmutableResult, , SetHatStatusResult, TransferHatResult, SetHatWearerStatusResult, CheckHatStatusResult, CheckHatWearerStatusResult, RequestLinkTopHatToTreeResult, */
   ApproveLinkTopHatToTreeResult,
   /*CreateHatResult, MintTopHatResult, */
   BatchCreateHatsResult,
   BatchMintHatsResult,
+  ChangeHatDetailsResult,
+  ChangeHatEligibilityResult,
+  ChangeHatImageURIResult,
+  ChangeHatMaxSupplyResult,
+  ChangeHatToggleResult,
+  CheckHatStatusResult,
   /*UnlinkTopHatFromTreeResult, RelinkTopHatWithinTreeResult, MultiCallResult, */
   ClaimResult,
 } from "@hatsprotocol/sdk-v1-core/dist/types";
@@ -81,25 +87,25 @@ export function useCanClaimForAccount(hatsClient: HatsClient | undefined, hatId:
   return { data, getData };
 }
 
-export function useIsWearerOfHat(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
+export function useIsWearerOfHat(hatsClient: HatsClient | undefined, wearer: string | undefined, hatId: string) {
   const [data, setData] = useState(false);
 
-  async function getData(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
+  async function getData(hatsClient: HatsClient | undefined, wearer: string | undefined, hatId: string) {
     if (!hatsClient) return;
-    if (!account) return;
+    if (!wearer) return;
 
-    const result = await hatsClient.isWearerOfHat({ wearer: account, hatId: BigInt(hatId) });
+    const result = await hatsClient.isWearerOfHat({ wearer, hatId: BigInt(hatId) });
     setData(result);
   }
 
   useEffect(() => {
-    getData(hatsClient, hatId, account);
-  }, [hatsClient, account, hatId]);
+    getData(hatsClient, wearer, hatId);
+  }, [hatsClient, wearer, hatId]);
 
   return { data, getData };
 }
 
-export function useViewHat(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
+export function useViewHat(hatsClient: HatsClient | undefined, hatId: string) {
   const [data, setData] = useState({
     details: "",
     maxSupply: 0,
@@ -112,17 +118,16 @@ export function useViewHat(hatsClient: HatsClient | undefined, hatId: string, ac
     active: false,
   });
 
-  async function getData(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
+  async function getData(hatsClient: HatsClient | undefined, hatId: string) {
     if (!hatsClient) return;
-    if (!account) return;
 
     const result = await hatsClient.viewHat(BigInt(hatId));
     setData(result);
   }
 
   useEffect(() => {
-    getData(hatsClient, hatId, account);
-  }, [hatsClient, account, hatId]);
+    getData(hatsClient, hatId);
+  }, [hatsClient, hatId]);
 
   return { data, getData };
 }
@@ -157,10 +162,10 @@ export function useApproveLinkTopHatToTree(
     setData(result);
   }
 
-  return { data, writeAsync };
+  return { writeAsync, data };
 }
 
-export function useBatchClaimHats(
+export function useBatchCreateHats(
   hatsClient: HatsClient | undefined,
   account: string | undefined,
   admins: bigint[],
@@ -190,7 +195,7 @@ export function useBatchClaimHats(
     setData(result);
   }
 
-  return { data, writeAsync };
+  return { writeAsync, data };
 }
 
 export function useBatchMintHats(
@@ -209,10 +214,10 @@ export function useBatchMintHats(
     setData(result);
   }
 
-  return { data, writeAsync };
+  return { writeAsync, data };
 }
 
-export function useClaimHat(hatsClient: HatsClient | undefined, hatId: string, account: string | undefined) {
+export function useClaimHat(hatsClient: HatsClient | undefined, account: string | undefined, hatId: string) {
   const [data, setData] = useState<ClaimResult>();
 
   async function writeAsync() {
@@ -223,7 +228,116 @@ export function useClaimHat(hatsClient: HatsClient | undefined, hatId: string, a
     setData(result);
   }
 
-  return { data, writeAsync };
+  return { writeAsync, data };
+}
+
+export function useChangeHatDetails(
+  hatsClient: HatsClient | undefined,
+  account: string | undefined,
+  hatId: string,
+  newDetails: string,
+) {
+  const [data, setData] = useState<ChangeHatDetailsResult>();
+
+  async function writeAsync() {
+    if (!hatsClient) return;
+    if (!account) return;
+
+    const result = await hatsClient.changeHatDetails({ account, hatId: BigInt(hatId), newDetails });
+    setData(result);
+  }
+
+  return { writeAsync, data };
+}
+
+export function useChangeHatEligibility(
+  hatsClient: HatsClient | undefined,
+  account: string | undefined,
+  hatId: string,
+  newEligibility: string,
+) {
+  const [data, setData] = useState<ChangeHatEligibilityResult>();
+
+  async function writeAsync() {
+    if (!hatsClient) return;
+    if (!account) return;
+
+    const result = await hatsClient.changeHatEligibility({ account, hatId: BigInt(hatId), newEligibility });
+    setData(result);
+  }
+
+  return { writeAsync, data };
+}
+
+export function useChangeHatImageURI(
+  hatsClient: HatsClient | undefined,
+  account: string | undefined,
+  hatId: string,
+  newImageURI: string,
+) {
+  const [data, setData] = useState<ChangeHatImageURIResult>();
+
+  async function writeAsync() {
+    if (!hatsClient) return;
+    if (!account) return;
+
+    const result = await hatsClient.changeHatImageURI({ account, hatId: BigInt(hatId), newImageURI });
+    setData(result);
+  }
+
+  return { writeAsync, data };
+}
+
+export function useChangeHatMaxSupply(
+  hatsClient: HatsClient | undefined,
+  account: string | undefined,
+  hatId: string,
+  newMaxSupply: number,
+) {
+  const [data, setData] = useState<ChangeHatMaxSupplyResult>();
+
+  async function writeAsync() {
+    if (!hatsClient) return;
+    if (!account) return;
+
+    const result = await hatsClient.changeHatMaxSupply({ account, hatId: BigInt(hatId), newMaxSupply });
+    setData(result);
+  }
+
+  return { writeAsync, data };
+}
+
+export function useChangeHatToggle(
+  hatsClient: HatsClient | undefined,
+  account: string | undefined,
+  hatId: string,
+  newToggle: string,
+) {
+  const [data, setData] = useState<ChangeHatToggleResult>();
+
+  async function writeAsync() {
+    if (!hatsClient) return;
+    if (!account) return;
+
+    const result = await hatsClient.changeHatToggle({ account, hatId: BigInt(hatId), newToggle });
+    setData(result);
+  }
+
+  return { writeAsync, data };
+}
+
+export function useCheckHatStatus(hatsClient: HatsClient | undefined, account: string | undefined, hatId: string) {
+  const [data, setData] = useState<CheckHatStatusResult>();
+
+  async function writeAsync() {
+    if (!hatsClient) return;
+    if (!account) return;
+
+    const result = await hatsClient.checkHatStatus({ account, hatId: BigInt(hatId) });
+    setData(result);
+  }
+
+  return { writeAsync, data };
 }
 
 // TODO://
