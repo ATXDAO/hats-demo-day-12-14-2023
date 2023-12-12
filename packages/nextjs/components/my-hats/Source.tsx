@@ -6,13 +6,7 @@ import { EquippedHat } from "./hat/EquippedHat";
 import { useClaimableHats } from "./hooks/useClaimableHats";
 import { useEquippedHats } from "./hooks/useEquippedHats";
 import { useAccount } from "wagmi";
-import {
-  /*PublicClient, WalletClient,*/
-  usePublicClient,
-  useWalletClient,
-} from "wagmi";
-
-// import { useClaimHat } from "../../hooks/atx-dao/hatsHooks";
+import { usePublicClient, useWalletClient } from "wagmi";
 
 export const globalHatIds = [
   "9921260784893851876474358771529355516659303059594999436885558443376640",
