@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import "react-tooltip/dist/react-tooltip.css";
 import { MetaHeader } from "~~/components/MetaHeader";
 import { Source } from "~~/components/home/Source";
 
