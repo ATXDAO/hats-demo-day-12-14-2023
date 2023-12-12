@@ -1,8 +1,8 @@
 import { useHatsClient } from "../../hooks/atx-dao/hatsHooks";
-import { AllInOneHat } from "./hat/AllInOneHat";
+// import { AllInOneHat } from "./hat/AllInOneHat";
 import { ClaimableHat } from "./hat/ClaimableHat";
 import { EquippedHat } from "./hat/EquippedHat";
-import { useAllInOneHats } from "./hooks/useAllInOneHats";
+// import { useAllInOneHats } from "./hooks/useAllInOneHats";
 import { useClaimableHats } from "./hooks/useClaimableHats";
 import { useEquippedHats } from "./hooks/useEquippedHats";
 import { useAccount } from "wagmi";
@@ -19,24 +19,24 @@ export const Source = () => {
   const { hatsClient } = useHatsClient(5);
 
   const { claimableHats, setClaimableHats } = useClaimableHats(hatsClient, address, globalHatIds);
-  const { allInOneHats, setAllInOneHats } = useAllInOneHats(hatsClient, address, globalHatIds);
+  // const { allInOneHats, setAllInOneHats } = useAllInOneHats(hatsClient, address, globalHatIds);
   const { equippedHats, setEquippedHats } = useEquippedHats(hatsClient, address, globalHatIds);
 
   for (let i = 0; i < claimableHats.length; i++) {
     claimableHats[i].onClaimed = async () => {
       await setEquippedHats();
       await setClaimableHats();
-      await setAllInOneHats();
+      // await setAllInOneHats();
     };
   }
 
-  for (let i = 0; i < allInOneHats.length; i++) {
-    allInOneHats[i].onClaimed = async () => {
-      await setEquippedHats();
-      await setClaimableHats();
-      await setAllInOneHats();
-    };
-  }
+  // for (let i = 0; i < allInOneHats.length; i++) {
+  //   allInOneHats[i].onClaimed = async () => {
+  //     await setEquippedHats();
+  //     await setClaimableHats();
+  //     await setAllInOneHats();
+  //   };
+  // }
 
   const equippedHatsComponents = equippedHats.map(hat => (
     <EquippedHat
@@ -62,19 +62,19 @@ export const Source = () => {
     ></ClaimableHat>
   ));
 
-  const allInOneComponents = allInOneHats.map(hat => (
-    <AllInOneHat
-      uniqueId={hat.uniqueId}
-      hatId={hat.hatId}
-      key={hat.uniqueId}
-      hatViewData={hat.hatViewData}
-      tooltipExtras={hat.tooltipExtras}
-      isWearing={hat.isWearing}
-      onClaimed={hat.onClaimed}
-      textColor={hat.textColor}
-      isClaimable={hat.isClaimable}
-    ></AllInOneHat>
-  ));
+  // const allInOneComponents = allInOneHats.map(hat => (
+  //   <AllInOneHat
+  //     uniqueId={hat.uniqueId}
+  //     hatId={hat.hatId}
+  //     key={hat.uniqueId}
+  //     hatViewData={hat.hatViewData}
+  //     tooltipExtras={hat.tooltipExtras}
+  //     isWearing={hat.isWearing}
+  //     onClaimed={hat.onClaimed}
+  //     textColor={hat.textColor}
+  //     isClaimable={hat.isClaimable}
+  //   ></AllInOneHat>
+  // ));
 
   return (
     <>
@@ -90,9 +90,9 @@ export const Source = () => {
 
         <p className="text-2xl text-white py-5">Full Collection</p>
         <div className="flex">{claimableHatsComponents}</div>
-
+        {/* 
         <p className="text-2xl text-white py-5">All Hats</p>
-        <div className="flex">{allInOneComponents}</div>
+        <div className="flex">{allInOneComponents}</div> */}
       </div>
     </>
   );

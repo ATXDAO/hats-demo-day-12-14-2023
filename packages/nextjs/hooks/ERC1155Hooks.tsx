@@ -11,6 +11,14 @@ export function useUri(tokenId?: number) {
   });
 }
 
+export function useGetBalance(address: string, tokenId: string) {
+  return useScaffoldContractRead({
+    contractName: "RepTokensInstance",
+    functionName: "balanceOf",
+    args: [address, BigInt(tokenId)],
+  });
+}
+
 export function useIPFSData(uri: string) {
   const { data: json /* error: error0 */ } = useFetch<Nft>(uri?.replace("ipfs://", "https://ipfs.io/ipfs/"));
   return json;

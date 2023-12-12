@@ -5,7 +5,7 @@ import { Source } from "~~/components/my-hats/Source";
 const MyHats: NextPage = () => {
   return (
     <>
-      <MetaHeader title="Hats Demo Day | Reputation & Roles" description="Hats Demo Day" />
+      <MetaHeader title="My Hats | Reputation & Roles" description="My Hats" />
       <div className="grid lg:grid-cols-1 flex-grow" data-theme="exampleUi">
         <Source />
       </div>
